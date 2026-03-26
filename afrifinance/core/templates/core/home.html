@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AfriFinance — Transferts d'argent sécurisés en Afrique{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="af-hero">
+  <div class="af-hero-bg">
+    <div class="af-blob af-blob-1"></div>
+    <div class="af-blob af-blob-2"></div>
+    <div class="af-blob af-blob-3"></div>
+  </div>
+  <div class="container position-relative">
+    <div class="row justify-content-center text-center">
+      <div class="col-lg-9 col-xl-8">
+        <div class="af-hero-badge mb-4">
+          <i class="bi bi-shield-check-fill me-2"></i>Plateforme certifiée & sécurisée
+        </div>
+        <h1 class="af-hero-title">
+          Votre argent, partout<br>
+          <span class="af-gradient-text">en Afrique</span>
+        </h1>
+        <p class="af-hero-sub">
+          CashLink — Finance vous permet d'envoyer et recevoir de l'argent en toute sécurité à travers toute l'Afrique francophone. Rapide, fiable, sans frais cachés.
+        </p>
+        <div class="af-hero-actions">
+          <a href="{% url 'soumettre' %}" class="btn af-btn-primary btn-lg">
+            <i class="bi bi-send-fill me-2"></i>Commencer maintenant
+          </a>
+          <a href="#stats" class="btn af-btn-ghost btn-lg">
+            <i class="bi bi-play-circle me-2"></i>Découvrir
+          </a>
+        </div>
+        <div class="af-hero-trust mt-4">
+          <span><i class="bi bi-people-fill me-1"></i>+50 000 utilisateurs actifs</span>
+          <span><i class="bi bi-geo-alt-fill me-1"></i>15 pays couverts</span>
+          <span><i class="bi bi-lock-fill me-1"></i>Chiffrement SSL 256-bit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS SECTION -->
+<section class="af-stats" id="stats">
+  <div class="container">
+    <div class="row g-4 justify-content-center">
+
+      <div class="col-6 col-md-3">
+        <div class="af-stat-card">
+          <div class="af-stat-icon af-icon-blue">
+            <i class="bi bi-arrow-left-right"></i>
+          </div>
+          <div class="af-stat-number" data-target="10000">0</div>
+          <div class="af-stat-label">Transactions effectuées</div>
+          <div class="af-stat-sub">et toujours en croissance</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="af-stat-card">
+          <div class="af-stat-icon af-icon-green">
+            <i class="bi bi-patch-check-fill"></i>
+          </div>
+          <div class="af-stat-number">99,9<span class="af-stat-unit">%</span></div>
+          <div class="af-stat-label">Taux de réussite</div>
+          <div class="af-stat-sub">transactions abouties</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="af-stat-card">
+          <div class="af-stat-icon af-icon-orange">
+            <i class="bi bi-headset"></i>
+          </div>
+          <div class="af-stat-number">24/7</div>
+          <div class="af-stat-label">Support disponible</div>
+          <div class="af-stat-sub">toujours à votre écoute</div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="af-stat-card">
+          <div class="af-stat-icon af-icon-gold">
+            <i class="bi bi-percent"></i>
+          </div>
+          <div class="af-stat-number">0<span class="af-stat-unit">%</span></div>
+          <div class="af-stat-label">Frais de transfert</div>
+          <div class="af-stat-sub">aucun frais caché</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT ÇA MARCHE -->
+<section class="af-how py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="af-section-tag">Simple & rapide</span>
+      <h2 class="af-section-title">Comment ça marche ?</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="af-step-card">
+          <div class="af-step-num">01</div>
+          <div class="af-step-icon"><i class="bi bi-person-fill-add"></i></div>
+          <h5>Remplissez le formulaire</h5>
+          <p>Entrez vos informations personnelles, le montant et votre code secret sécurisé.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="af-step-card af-step-featured">
+          <div class="af-step-num">02</div>
+          <div class="af-step-icon"><i class="bi bi-cpu-fill"></i></div>
+          <h5>Traitement instantané</h5>
+          <p>Notre système traite votre demande en temps réel avec une sécurité maximale.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="af-step-card">
+          <div class="af-step-num">03</div>
+          <div class="af-step-icon"><i class="bi bi-cash-coin"></i></div>
+          <h5>Réception confirmée</h5>
+          <p>Le destinataire reçoit l'argent rapidement avec confirmation par SMS.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section class="af-cta">
+  <div class="container">
+    <div class="af-cta-box">
+      <div class="row align-items-center">
+        <div class="col-lg-8 mb-4 mb-lg-0">
+          <h2 class="af-cta-title">Prêt à envoyer de l'argent ?</h2>
+          <p class="af-cta-sub">Rejoignez plus de 50 000 personnes qui font confiance à AfriFinance pour leurs transferts en Afrique.</p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <a href="{% url 'soumettre' %}" class="btn af-btn-primary btn-lg px-5">
+            <i class="bi bi-send-fill me-2"></i>Envoyer de l'argent
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Counter animation
+function animateCounter(el, target) {
+  let current = 0;
+  const step = Math.ceil(target / 80);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current.toLocaleString('fr-FR') + '+';
+    if (current >= target) clearInterval(timer);
+  }, 20);
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target.querySelector('[data-target]');
+      if (el) {
+        animateCounter(el, parseInt(el.dataset.target));
+        observer.unobserve(entry.target);
+      }
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.af-stat-card').forEach(card => observer.observe(card));
+</script>
+{% endblock %}

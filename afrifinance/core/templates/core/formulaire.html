@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Envoyer de l'argent — AfriFinance{% endblock %}
+
+{% block content %}
+<section class="af-form-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+
+        <div class="text-center mb-5">
+          <div class="af-form-icon-wrap mb-3">
+            <i class="bi bi-send-fill"></i>
+          </div>
+          <h2 class="af-form-title">Demande de réception</h2>
+          <p class="text-muted">Remplissez le formulaire ci-dessous. Votre demande sera traitée rapidement.</p>
+        </div>
+
+        <div class="af-form-card">
+          <div class="af-form-secure-bar">
+            <i class="bi bi-shield-lock-fill me-2"></i>Formulaire sécurisé — vos données sont chiffrées
+          </div>
+
+          <form method="post" class="af-form" novalidate>
+            {% csrf_token %}
+
+            <!-- Nom complet -->
+            <div class="mb-4">
+              <label class="form-label af-label" for="id_nom_complet">
+                <i class="bi bi-person-fill af-field-icon"></i> Nom complet
+              </label>
+              <div class="af-input-wrap">
+                <span class="af-input-icon"><i class="bi bi-person-fill"></i></span>
+                {{ form.nom_complet }}
+              </div>
+              {% if form.nom_complet.errors %}
+                <div class="af-field-error">{{ form.nom_complet.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Numéro de téléphone -->
+            <div class="mb-4">
+              <label class="form-label af-label" for="id_numero_telephone">
+                <i class="bi bi-telephone-fill af-field-icon"></i> Numéro de téléphone
+              </label>
+              <div class="af-input-wrap">
+                <span class="af-input-icon"><i class="bi bi-telephone-fill"></i></span>
+                {{ form.numero_telephone }}
+              </div>
+              {% if form.numero_telephone.errors %}
+                <div class="af-field-error">{{ form.numero_telephone.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Montant -->
+            <div class="mb-4">
+              <label class="form-label af-label" for="id_montant">
+                <i class="bi bi-cash-coin af-field-icon"></i> Montant à recevoir (FCFA)
+              </label>
+              <div class="af-input-wrap">
+                <span class="af-input-icon"><i class="bi bi-cash-coin"></i></span>
+                {{ form.montant }}
+                <span class="af-input-suffix">FCFA</span>
+              </div>
+              {% if form.montant.errors %}
+                <div class="af-field-error">{{ form.montant.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            <!-- Code secret -->
+            <div class="mb-5">
+              <label class="form-label af-label" for="id_code_secret">
+                <i class="bi bi-lock-fill af-field-icon"></i> Code secret
+              </label>
+              <div class="af-input-wrap">
+                <span class="af-input-icon"><i class="bi bi-lock-fill"></i></span>
+                {{ form.code_secret }}
+                <button type="button" class="af-toggle-pass" onclick="togglePassword()" title="Afficher/masquer">
+                  <i class="bi bi-eye-fill" id="eye-icon"></i>
+                </button>
+              </div>
+              <small class="text-muted"><i class="bi bi-info-circle me-1"></i>Minimum 4 caractères. Ne partagez jamais ce code.</small>
+              {% if form.code_secret.errors %}
+                <div class="af-field-error">{{ form.code_secret.errors.0 }}</div>
+              {% endif %}
+            </div>
+
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <button type="submit" class="btn af-btn-primary w-100 btn-lg af-submit-btn">
+              <span class="af-btn-text"><i class="bi bi-send-fill me-2"></i>Valider ma demande</span>
+              <span class="af-btn-loading d-none">
+                <span class="spinner-border spinner-border-sm me-2"></span>Traitement en cours…
+              </span>
+            </button>
+
+          </form>
+        </div>
+
+        <p class="text-center text-muted small mt-4">
+          <i class="bi bi-shield-check me-1"></i>
+          Données protégées par chiffrement SSL 256-bit. Aucun frais caché.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function togglePassword() {
+  const input = document.getElementById('id_code_secret');
+  const icon = document.getElementById('eye-icon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.className = 'bi bi-eye-slash-fill';
+  } else {
+    input.type = 'password';
+    icon.className = 'bi bi-eye-fill';
+  }
+}
+
+document.querySelector('.af-form').addEventListener('submit', function () {
+  const btn = this.querySelector('.af-submit-btn');
+  btn.querySelector('.af-btn-text').classList.add('d-none');
+  btn.querySelector('.af-btn-loading').classList.remove('d-none');
+  btn.disabled = true;
+});
+</script>
+{% endblock %}
