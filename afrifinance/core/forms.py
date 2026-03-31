@@ -23,11 +23,11 @@ class DemandeTransactionForm(forms.ModelForm):
             }),
             'numero_telephone': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Ex: +237 6XX XXX XXX',
+                'placeholder': 'Ex: +221 6XX XXX XXX',
             }),
             'montant': forms.NumberInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Montant en FCFA',
+                'placeholder': '$',
                 'min': '500',
                 'step': '100',
             }),
@@ -35,8 +35,8 @@ class DemandeTransactionForm(forms.ModelForm):
 
     def clean_montant(self):
         montant = self.cleaned_data.get('montant')
-        if montant and montant < 500:
-            raise forms.ValidationError("Le montant minimum est de 500 FCFA.")
+        if montant and montant < 100:
+            raise forms.ValidationError("Le montant minimum est de 100 $.")
         return montant
 
     def clean_numero_telephone(self):
