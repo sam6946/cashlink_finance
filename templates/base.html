@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}CashLink — Finance Simplifiée{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg af-navbar">
+    <div class="container">
+      <a class="navbar-brand af-brand" href="{% url 'home' %}">
+        <span class="af-logo-icon"><i class="bi bi-globe-africa"></i></span>
+        CashLink<span class="af-brand-accent">Finance</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav ms-auto align-items-center gap-2">
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="bi bi-house me-1"></i>Accueil</a></li>
+          <li class="nav-item"><a class="nav-link btn-af-nav" href="{% url 'soumettre' %}"><i class="bi bi-send me-1"></i>Efectuer un retrait</a></li>
+          {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link text-danger" href="{% url 'dashboard_logout' %}"><i class="bi bi-box-arrow-right me-1"></i>Déconnexion</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  {% block content %}{% endblock %}
+
+  <footer class="af-footer">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-4 mb-3 mb-md-0">
+          <span class="af-brand fw-bold fs-5">CashLink<span class="af-brand-accent">Finance</span></span>
+          <p class="text-muted small mt-1 mb-0">La finance africaine, simplifiée.</p>
+        </div>
+        <div class="col-md-4 text-center mb-3 mb-md-0">
+          <div class="d-flex justify-content-center gap-3">
+            <a href="#" class="af-social"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="af-social"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="af-social"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="col-md-4 text-md-end">
+          <p class="text-muted small mb-0">© 2025 CashLink-Finance. Tous droits réservés.</p>
+          <p class="text-muted small mb-0">Support 24/7 : <a href="tel:+221600000000" class="af-link">+221 600 000 000</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

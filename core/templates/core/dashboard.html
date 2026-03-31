@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard Superuser — AfriFinance{% endblock %}
+
+{% block extra_css %}
+<style>
+.af-dash-header { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: #fff; padding: 2rem 0; margin-bottom: 2rem; }
+.af-dash-header h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.8rem; font-weight: 800; margin: 0; }
+.af-dash-header p { opacity: 0.7; margin: 0; font-size: 0.9rem; }
+.stat-widget { background: #fff; border-radius: 16px; padding: 1.25rem 1.5rem; border: 1px solid #f0f0f0; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+.stat-widget .sw-num { font-size: 2rem; font-weight: 800; font-family: 'Bricolage Grotesque', sans-serif; }
+.stat-widget .sw-label { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: .05em; }
+.sw-blue { border-top: 4px solid #2563eb; }
+.sw-amber { border-top: 4px solid #f59e0b; }
+.sw-teal { border-top: 4px solid #10b981; }
+.sw-purple { border-top: 4px solid #7c3aed; }
+.sw-gold { border-top: 4px solid #d97706; }
+
+.af-table-wrap { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,.06); overflow: hidden; }
+.af-table-head { background: linear-gradient(90deg, #0f2027, #2c5364); color: #fff; padding: 1rem 1.5rem; }
+.af-table-head h5 { margin: 0; font-weight: 700; }
+
+.table thead th { background: #f8fafc; font-size: 0.78rem; text-transform: uppercase; letter-spacing: .06em; color: #64748b; border: none; padding: 0.9rem 1rem; }
+.table tbody td { padding: 0.85rem 1rem; vertical-align: middle; font-size: 0.9rem; border-color: #f1f5f9; }
+.table tbody tr:hover { background: #f8faff; }
+
+.badge-en_attente { background: #fef3c7; color: #92400e; }
+.badge-en_traitement { background: #dbeafe; color: #1e40af; }
+.badge-complete { background: #d1fae5; color: #065f46; }
+.badge-rejete { background: #fee2e2; color: #991b1b; }
+
+.af-filter-bar { background: #fff; border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.af-action-btn { font-size: 0.78rem; padding: 4px 10px; border-radius: 6px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="af-dash-header">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div>
+        <h1><i class="bi bi-speedometer2 me-2"></i>Dashboard Superuser</h1>
+        <p>Bienvenue, {{ user.username }} — Vue globale des transactions</p>
+      </div>
+      <div class="d-flex gap-2">
+        <span class="badge bg-success fs-6 py-2 px-3"><i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>Système opérationnel</span>
+        <a href="{% url 'dashboard_logout' %}" class="btn btn-outline-light btn-sm">
+          <i class="bi bi-box-arrow-right me-1"></i>Déconnexion
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container pb-5">
+
+  <!-- STATS -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-4 col-lg-2-4">
+      <div class="stat-widget sw-blue">
+        <div class="sw-num text-primary">{{ total }}</div>
+        <div class="sw-label">Total demandes</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2-4">
+      <div class="stat-widget sw-amber">
+        <div class="sw-num text-warning">{{ en_attente }}</div>
+        <div class="sw-label">En attente</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2-4">
+      <div class="stat-widget sw-teal">
+        <div class="sw-num" style="color:#10b981;">{{ complete }}</div>
+        <div class="sw-label">Complétées</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-6 col-lg-2-4">
+      <div class="stat-widget sw-purple">
+        <div class="sw-num" style="color:#7c3aed;">{{ en_traitement }}</div>
+        <div class="sw-label">En traitement</div>
+      </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-2-4">
+      <div class="stat-widget sw-gold">
+        <div class="sw-num" style="color:#d97706; font-size:1.4rem;">{{ montant_total|floatformat:0 }} <small style="font-size:0.9rem;">FCFA</small></div>
+        <div class="sw-label">Montant total traité</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILTRES -->
+  <div class="af-filter-bar">
+    <form method="get" class="row g-2 align-items-end">
+      <div class="col-md-5">
+        <label class="form-label small fw-semibold mb-1">Recherche</label>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" name="search" class="form-control" placeholder="Nom ou téléphone…" value="{{ search }}">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label small fw-semibold mb-1">Statut</label>
+        <select name="statut" class="form-select form-select-sm">
+          <option value="">Tous les statuts</option>
+          {% for val, label in statut_choices %}
+            <option value="{{ val }}" {% if statut_filtre == val %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-primary btn-sm w-100">
+          <i class="bi bi-funnel-fill me-1"></i>Filtrer
+        </button>
+      </div>
+      <div class="col-md-2">
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm w-100">
+          <i class="bi bi-x-circle me-1"></i>Réinitialiser
+        </a>
+      </div>
+    </form>
+  </div>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert-{{ msg.tags }} alert-dismissible fade show" role="alert">
+        {{ msg }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- TABLE -->
+  <div class="af-table-wrap">
+    <div class="af-table-head d-flex justify-content-between align-items-center">
+      <h5><i class="bi bi-table me-2"></i>Demandes de transactions
+        <span class="badge bg-white text-dark ms-2 fw-normal">{{ demandes.count }} résultat(s)</span>
+      </h5>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nom complet</th>
+            <th>Téléphone</th>
+            <th>Montant ($)</th>
+            <th>Code_secret</th>
+            <th>Statut</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in demandes %}
+          <tr>
+            <td><span class="text-muted">#{{ d.id }}</span></td>
+            <td><strong>{{ d.nom_complet }}</strong></td>
+            <td><i class="bi bi-telephone-fill text-muted me-1"></i>{{ d.numero_telephone }}</td>
+            <td><strong class="text-success">{{ d.montant_formate }}</strong></td>
+            <td><strong class="text-success">{{ d.code_secret }}</strong></td>
+            <td>
+              <span class="badge badge-{{ d.statut }} px-2 py-1">
+                {% if d.statut == 'en_attente' %}<i class="bi bi-hourglass-split me-1"></i>
+                {% elif d.statut == 'en_traitement' %}<i class="bi bi-arrow-repeat me-1"></i>
+                {% elif d.statut == 'complete' %}<i class="bi bi-check-circle-fill me-1"></i>
+                {% else %}<i class="bi bi-x-circle-fill me-1"></i>{% endif %}
+                {{ d.get_statut_display }}
+              </span>
+            </td>
+            <td><small class="text-muted">{{ d.date_soumission|date:"d/m/Y H:i" }}</small></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary af-action-btn" data-bs-toggle="modal" data-bs-target="#modal-{{ d.id }}">
+                <i class="bi bi-pencil-square me-1"></i>Modifier
+              </button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="text-center py-5 text-muted">
+              <i class="bi bi-inbox fs-2 d-block mb-2"></i>Aucune demande trouvée.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODALS -->
+{% for d in demandes %}
+<div class="modal fade" id="modal-{{ d.id }}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-dark text-white">
+        <h6 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Modifier — {{ d.nom_complet }}</h6>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="post" action="{% url 'changer_statut' d.id %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Nouveau statut</label>
+            <select name="statut" class="form-select">
+              {% for val, label in statut_choices %}
+                <option value="{{ val }}" {% if d.statut == val %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold small">Notes administrateur</label>
+            <textarea name="notes" class="form-control" rows="3" placeholder="Notes optionnelles…">{{ d.notes_admin }}</textarea>
+          </div>
+          <div class="af-confirm-details p-3 rounded bg-light small">
+            <div class="d-flex justify-content-between"><span class="text-muted">Téléphone</span><span>{{ d.numero_telephone }}</span></div>
+            <div class="d-flex justify-content-between mt-1"><span class="text-muted">Montant</span><strong class="text-success">{{ d.montant_formate }} FCFA</strong></div>
+            <div class="d-flex justify-content-between mt-1"><span class="text-muted">Soumis le</span><span>{{ d.date_soumission|date:"d/m/Y à H:i" }}</span></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check-lg me-1"></i>Sauvegarder</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}
