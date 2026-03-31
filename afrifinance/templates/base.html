@@ -26,7 +26,7 @@
       <div class="collapse navbar-collapse" id="navMain">
         <ul class="navbar-nav ms-auto align-items-center gap-2">
           <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="bi bi-house me-1"></i>Accueil</a></li>
-          <li class="nav-item"><a class="nav-link btn-af-nav" href="{% url 'soumettre' %}"><i class="bi bi-send me-1"></i>Envoyer de l'argent</a></li>
+          <li class="nav-item"><a class="nav-link btn-af-nav" href="{% url 'soumettre' %}"><i class="bi bi-send me-1"></i>Retrait d'argent</a></li>
           {% if user.is_authenticated %}
           <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
           <li class="nav-item"><a class="nav-link text-danger" href="{% url 'dashboard_logout' %}"><i class="bi bi-box-arrow-right me-1"></i>Déconnexion</a></li>
@@ -54,7 +54,7 @@
         </div>
         <div class="col-md-4 text-md-end">
           <p class="text-muted small mb-0">© 2025 CashLink — Finance. Tous droits réservés.</p>
-          <p class="text-muted small mb-0">Support 24/7 : <a href="tel:+237600000000" class="af-link">+237 600 000 000</a></p>
+          <p class="text-muted small mb-0">Support 24/7 : <a href="tel:+221600000000" class="af-link">+221 600 000 000</a></p>
         </div>
       </div>
     </div>
