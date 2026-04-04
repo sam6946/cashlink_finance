@@ -15,7 +15,7 @@ DEBUG = env.bool('DEBUG', default=False)
 
 # DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'cashlink-finance-2.onrender.com').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
