@@ -4,7 +4,7 @@ import environ
 import dj_database_url
 
 env = environ.Env()
-environ.Env.read.env()
+environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
