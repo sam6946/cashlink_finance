@@ -8,9 +8,12 @@ environ.Env.read.env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-change-this-in-production-use-env-variable'
+#SECRET_KEY = 'django-insecure-change-this-in-production-use-env-variable'
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env.bool('DEBUG', default=False)
+
+# DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
