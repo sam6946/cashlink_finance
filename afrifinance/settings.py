@@ -11,7 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #SECRET_KEY = 'django-insecure-change-this-in-production-use-env-variable'
 
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = env.bool('DEBUG', default=False)
+#DEBUG = env.bool('DEBUG', default=False)
+DEBUG = True
 
 # DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
